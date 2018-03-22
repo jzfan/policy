@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('policies', 'PolicyController')->middleware('auth:api');
 // Route::apiResource('users', 'UserController');
 Route::post('register', 'Auth\ApiAuthController@register');
+Route::post('tickets', 'TicketController@prepay')->middleware('auth:api');

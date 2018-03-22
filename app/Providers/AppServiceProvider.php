@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        if (app()->environment() !== 'testing') {
+            \App\Setting::config();
+            \App\Lottery::config();
+        }
     }
 
     /**

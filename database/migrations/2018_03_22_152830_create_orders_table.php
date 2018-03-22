@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePoliciesTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreatePoliciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('policies', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('info');
+            $table->string('trade_no');
+            $table->string('total_fee');
             $table->unsignedInteger('user_id')->index();
-            $table->string('expect');
-            $table->unsignedSmallInteger('number');
-            $table->json('recommend');
-            $table->string('code');
-            $table->string('status')->nullable();
+            $table->string('status', 10);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -34,6 +33,6 @@ class CreatePoliciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('policies');
+        Schema::dropIfExists('orders');
     }
 }

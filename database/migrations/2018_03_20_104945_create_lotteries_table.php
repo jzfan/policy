@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSanDTable extends Migration
+class CreateLotteriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateSanDTable extends Migration
      */
     public function up()
     {
-        Schema::create('san_d', function (Blueprint $table) {
+        Schema::create('lotteries', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('number');
-            $table->json('recommended_section');
+            $table->string('code', 10);
+            $table->string('expect', 20);
+            $table->string('opencode');
+            $table->timestamp('opentime');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateSanDTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('san_d');
+        Schema::dropIfExists('lotteries');
     }
 }

@@ -6,27 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Policy extends Model
 {
+    use InsureTrait;
+    
 	protected $guarded = [];
-    protected $with = ['insurable'];
+    protected $casts = [
+        'recommend' => 'array'
+    ];
 
-	public function insurable()
+    public static function wonOrLose($lottery)
     {
-        return $this->morphTo();
+    	$all = self::where([
+    			'code' => $lottery->code,
+    			'expect' => $lottery->expect,
+    		])->get();
+    	foreach ($all as $one) {
+    		if (in_array($lottery->tail(), $one->recommend)) {
+    			$one->update(['status' => 'won']);
+    		} else {
+    			$one->update(['status' => 'lose']);
+    		}
+    	}
     }
-
-    public function createByType($input)
-    {
-    	$model = $this->getModel($input['type']);
-    	$obj = $model->createByInput($input);
-    	return $obj->policy()->create([
-    			'period' => date('Ymd'),
-    			'user_id' => auth()->id()
-    		]);
-    }
-
-    protected function getModel($type)
-    {
-        $class = 'App\\'.studly_case($type);
-        return new $class;
-    }
+ 
 }

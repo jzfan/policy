@@ -18,14 +18,14 @@ class PolicyController extends Controller
         //
     }
 
-    public function store(Request $request, Policy $policyModel)
+    public function store(Request $request)
     {
         $data = $request->validate([
                 'number' => 'required',
-                'type' => 'required|in:shuang_se_qiu,san_d'
+                'code' => 'required',
             ]);
-        $policy = $policyModel->createByType($request->input());
-        return response()->json(['data' => new PolicyResource($policy)], 201);
+        $policy = Policy::insure($data);
+        return response()->json(['data' => $policy], 201);
     }
 
     public function show(Policy $policy)

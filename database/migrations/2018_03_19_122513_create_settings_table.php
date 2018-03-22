@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateshuangSeQiuTable extends Migration
+class CreateSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateshuangSeQiuTable extends Migration
      */
     public function up()
     {
-        Schema::create('shuang_se_qiu', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('number');
-            $table->unsignedInteger('recommended_number');
+        Schema::create('settings', function (Blueprint $table) {
+            $table->string('name');
+            $table->string('key');
+            $table->string('value');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateshuangSeQiuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shuang_se_qiu');
+        Schema::dropIfExists('settings');
     }
 }
