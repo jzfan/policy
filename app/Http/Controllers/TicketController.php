@@ -20,7 +20,7 @@ class TicketController extends Controller
     {
         $rank = PrepayRank::find(request('rank'));
         $trade_no = date('YmdHis' . str_pad( auth()->id(), 3, '0', STR_PAD_LEFT));
-        $res = $this->payment->charge([
+        $res = $this->payment->prepay([
             'body' => '会员充值',
             'out_trade_no' => $trade_no,
             'total_fee' => $rank->price,

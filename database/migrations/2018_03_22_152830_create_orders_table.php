@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('total_fee');
             $table->unsignedInteger('user_id')->index();
             $table->string('status', 10);
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

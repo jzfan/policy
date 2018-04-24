@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('ticket')->nullable();
             $table->string('api_token', 60)->unique()->nullable();
             $table->string('password')->nullable();
+            $table->string('openid');
             $table->rememberToken();
             $table->timestamps();
         });

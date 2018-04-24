@@ -23,7 +23,7 @@ class UserTest extends TestCase
 		$this->post('/api/register', $wx_user)
 			 ->assertJsonFragment([
 			 		'name' => 'Fan', 
-			 		'api_token' => 'oLn0awp7W5-J6qEeamsACqC9BCeE'
+			 		'openid' => 'oLn0awp7W5-J6qEeamsACqC9BCeE'
 			 	]);
 	}
 }

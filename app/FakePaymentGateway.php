@@ -4,7 +4,7 @@ namespace App;
 
 class FakePaymentGateway implements PaymentGateway
 {
-    public function charge($data)
+    public function prepay($data)
     {
     	return [
     		   "return_msg" => "OK",
@@ -14,14 +14,12 @@ class FakePaymentGateway implements PaymentGateway
     	];
     }
 
-    public function notify()
+    public function handlePaidNotify($closure)
     {
-    	return [
-    		   "total_fee" => "100",
-    		   "openid" => "123",
-    		   "out_trade_no" => "1409811653",
-    		   "result_code" => "SUCCESS",
-    		   "time_end" => "20140903131540",
-    	];
+        $result = call_user_func($closure, request()->all(), null);
+        if ($result !== true) {
+            return;
+        }
+        return response()->json(['return_code' => 'SUCCESS']);
     }
 }

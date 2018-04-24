@@ -4,7 +4,7 @@ namespace App;
 
 interface PaymentGateway
 {
-    public function charge($data);
+    public function prepay($data);
 
-    public function notify();
+    public function handlePaidNotify($closure);
 }

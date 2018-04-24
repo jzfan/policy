@@ -28,7 +28,8 @@ class ApiAuthController extends Controller
     {
         return User::create([
             'name' => $data['nickname'],
-            'api_token' => $data['openid'],
+            'openid' => $data['openid'],
+            'api_token' => str_random(60),
         ]);
     }
 }

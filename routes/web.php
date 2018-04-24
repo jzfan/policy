@@ -15,4 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['middleware' => ['fake_wx_user']], function () { 
+	Route::group(['middleware' => ['web', 'wechat.oauth']], function () { 
+		Route::get('/oauth', 'WxOauthController@index');
+	});
+});
 Route::any('/wxpay/notify', 'OrderController@wxNotify');
