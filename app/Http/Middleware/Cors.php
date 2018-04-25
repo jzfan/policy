@@ -8,8 +8,9 @@ class Cors
 {
     public function handle($request, Closure $next)
     {
-        $domains = ['http://192.168.1.222:8080'];
+        $domains = [env('DOMAIN_ALLOWED')];
         $origin = $request->server()['HTTP_ORIGIN'] ?? false;
+\Log::info($origin);
         if ($origin && in_array($origin, $domains)) {
             header('Access-control-Allow-Origin: ' . $origin);
             header('Access-control-Allow-Headers: Origin, Content-Type, Authorization');
