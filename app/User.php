@@ -36,4 +36,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public static function firstOrCreateBy($wechatUser)
+    {
+        return self::where('openid', $wechatUser['openid'])->firstOrCreate([
+                'openid' => $wechatUser['openid']
+            ], [
+                'name' => $wechatUser['nickname'],
+                'api_token' => str_random(60),
+                'avatar' => $wechatUser['headimgurl']
+            ]);
+    }
+
+    public function toArray()
+    {
+        return [
+            'api_token' => $this->api_token,
+            'name' => $this->name,
+            'avatar' => $this->avatar
+        ];
+    }
 }

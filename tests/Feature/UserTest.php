@@ -9,21 +9,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UserTest extends TestCase
 {
 	/** @test */
-	public function a_weixin_user_can_register()
+	public function can_find_user_by_code()
 	{
-		$wx_user = [
-			"openid" =>"oLn0awp7W5-J6qEeamsACqC9BCeE",
-			"nickname" => "Fan",
-			"sex" =>"1",
-			"province" =>"湖北",
-			"city" =>"武汉",
-			"country" =>"中国",
-			"headimgurl" => "http://wx.qlogo.cn/mmopen/hNWCQ9bibbzF5eDhERZwwSEn31DicnqoouJgX7vZeZfDeV4H57gcldGPdJ3VgrqAHgR6cSmLurvq949vfJpdDrlA2jicUkLdCHB/0",
-		];
-		$this->post('/api/register', $wx_user)
-			 ->assertJsonFragment([
-			 		'name' => 'Fan', 
-			 		'openid' => 'oLn0awp7W5-J6qEeamsACqC9BCeE'
-			 	]);
+		$this->get('/api/oauth/user?code=iloveyou')
+			 ->assertJsonStructure([
+			 	'api_token', 'name', 'avatar'
+			 ]);
 	}
 }

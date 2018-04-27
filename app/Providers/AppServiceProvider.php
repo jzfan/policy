@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Setting::config();
             \App\Lottery::config();
         }
+        if (env('APP_DEBUG')) {
+            // app('wechat.official_account')
+            $this->app->instance('wechat.official_account', new \App\FakeOfficialAccount);
+        }
     }
 
     /**
