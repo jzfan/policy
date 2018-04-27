@@ -35,7 +35,7 @@ class CreatePolicyTest extends TestCase
 			$this->assertLessThanOrEqual(16, $selected);
 			$this->assertGreaterThanOrEqual(1, $selected);
 		}
-		$this->assertEquals(count($res['recommend']), config('setting.ssq_odds'));
+		$this->assertCount(config('setting.ssq_odds'), $res['recommend']);
 	}
 
 	/** @test */
@@ -57,6 +57,6 @@ class CreatePolicyTest extends TestCase
 			$this->assertLessThanOrEqual(999, $selected);
 			$this->assertGreaterThanOrEqual(0, $selected);
 		}
-		$this->assertEquals(count($res['recommend']), config('setting.fc3d_odds'));
+		$this->assertCount(config('setting.fc3d_odds'), $res['recommend']);
 	}
 }

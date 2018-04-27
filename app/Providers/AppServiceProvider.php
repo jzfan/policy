@@ -30,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('App\PaymentGateway', function ($app) {
+            return new \App\WxPaymentGateway;
+        });
     }
 }

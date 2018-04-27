@@ -11,6 +11,6 @@ class PrepayRank extends Model
     public static function sold($order)
     {
     	$rank = self::where('price', $order->total_fee)->first();
-    	$order->user->update(['ticket' => 10]);
+    	$order->user->update(['tickets_qty' => $rank->tickets_qty]);
     }
 }

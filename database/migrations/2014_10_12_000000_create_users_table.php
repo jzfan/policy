@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('credit')->nullable();
-            $table->unsignedInteger('ticket')->nullable();
+            $table->unsignedInteger('tickets_qty')->default(0);
             $table->string('api_token', 60)->unique()->nullable();
             $table->string('password')->nullable();
             $table->string('openid');

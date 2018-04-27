@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'ticket', 'credit', 'openid', 'avatar'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'credit', 'openid', 'avatar'
     ];
 
     /**
@@ -53,7 +53,8 @@ class User extends Authenticatable
         return [
             'api_token' => $this->api_token,
             'name' => $this->name,
-            'avatar' => $this->avatar
+            'avatar' => $this->avatar,
+            'tickets_qty' => $this->tickets_qty
         ];
     }
 }
