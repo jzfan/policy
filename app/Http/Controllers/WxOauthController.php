@@ -7,22 +7,43 @@ use Illuminate\Http\Request;
 
 class WxOauthController extends Controller
 {
-    public function index()
+    protected $oauth;
+
+    public function __construct()
     {
-    	$wxUser = session('wechat.oauth_user.default');
-    	$user = User::where('openid', $wxUser->id)->first();
-    	if (!$user) {
-    		User::create([
-    			'name' => $wxUser->nickname,
+        $this->oauth = app('wechat.official_account')->oauth;
+    }
+
+    public function user()
+    {
+        $accessToken = $this->token(request('code'));
+        $wechatUser = $this->oauth->getUserByToken($accessToken);
+        \Log::info($wechatUser['headimgurl']);
+        $user = User::where('openid', $wechatUser['openid'])->firstOrCreate([
+                'openid' => $wechatUser['openid']
+            ], [
+                'name' => $wechatUser['nickname'],
                 'api_token' => str_random(60),
-                'openid' => $wxUser->id,
-                'avatar' => $wxUser->avatar
-    		]);
-    	}
-    	return response()->json([
-    		'api_token' => $wxUser->id,
-    		'name' => $wxUser->nickname,
-    		'avatar' => $wxUser->avatar
-    	]);
+                'openid' => $wechatUser['openid'],
+                'avatar' => $wechatUser['headimgurl']
+            ]);
+        return response()->json([
+            'api_token' => $user->api_token,
+            'name' => $user->name,
+            'avatar' => $user->avatar
+        ]);
+    }
+
+    protected function token()
+    {
+        $accessToken = $this->oauth->getAccessToken(request('code'));
+        // \Log::info(json_encode($accessToken));
+        return $accessToken;
+        // $wxUser = session('wechat.oauth_user.default');
+    }
+
+    public function url()
+    {
+        return $this->oauth->redirect()->getTargetUrl();
     }
 }

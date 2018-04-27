@@ -22,3 +22,6 @@ Route::apiResource('policies', 'PolicyController')->middleware('auth:api');
 // Route::apiResource('users', 'UserController');
 Route::post('register', 'Auth\ApiAuthController@register');
 Route::post('tickets', 'TicketController@prepay')->middleware('auth:api');
+
+Route::get('/oauth/url', 'WxOauthController@url');
+Route::get('/oauth/user', 'WxOauthController@user');

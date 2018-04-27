@@ -59,6 +59,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
-        'fake_wx_user' => \App\Http\Middleware\FakeWxUser::class,
+        // 'fake_wx_user' => \App\Http\Middleware\FakeWxUser::class,
     ];
 }

@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('api_token', 60)->unique()->nullable();
             $table->string('password')->nullable();
             $table->string('openid');
+            $table->string('avatar');
             $table->rememberToken();
             $table->timestamps();
         });
