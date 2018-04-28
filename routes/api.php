@@ -13,12 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
+Route::get('policies/next', 'PolicyController@next')->middleware('auth:api');
 Route::apiResource('policies', 'PolicyController')->middleware('auth:api');
+Route::post('policies/{policy}/active', 'PolicyController@active')->middleware('auth:api');
 // Route::apiResource('users', 'UserController');
 // Route::post('register', 'Auth\ApiAuthController@register');
 Route::post('tickets', 'TicketController@prepay')->middleware('auth:api');

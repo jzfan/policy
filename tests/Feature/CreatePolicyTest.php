@@ -27,7 +27,7 @@ class CreatePolicyTest extends TestCase
 		];
 		$res = $this->post("/api/policies", $data, $this->authHeader)
 			 ->assertStatus(201)
-			->decodeResponseJson('data');
+			->decodeResponseJson();
 		$this->assertEquals($selected, $res['number']);
 		foreach ($res['recommend'] as $n) {
 			$this->assertTrue(is_int($n));
@@ -48,7 +48,7 @@ class CreatePolicyTest extends TestCase
 		];
 		$res = $this->post("/api/policies", $data, $this->authHeader)
 					->assertStatus(201)
-					->decodeResponseJson('data');
+					->decodeResponseJson();
 
 		$this->assertEquals($selected, $res['number']);
 		foreach ($res['recommend'] as $n) {

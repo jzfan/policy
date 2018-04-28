@@ -4,16 +4,27 @@ namespace App;
 
 trait InsureTrait
 {
-	public static function insure($data)
+	   public static function insure($data)
     {
     	$methodName = 'recommendFor' . studly_case($data['code']);
     	$data = $data + [
-    	        'expect' => config('lottery.'.$data['code'].'.next'),
+    	        'expect' => self::getExpect($data['code']),
     	        'recommend' => Policy::$methodName($data['number']),
     	        'user_id' => auth()->id()
     	    ];
 
     	return Policy::create($data);
+    }
+
+    public static function hasInsured($data)
+    {
+        $p = Policy::where('code', $data['code'])->where('expect', self::getExpect($data['code']))->first(); 
+        return $p != null;
+    }
+
+    protected static function getExpect($code)
+    {
+      return config('lottery.'.$code.'.next');
     }
 
     public static function recommendForSsq($number)

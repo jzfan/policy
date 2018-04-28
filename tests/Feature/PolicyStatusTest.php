@@ -18,6 +18,7 @@ class PolicyStatusTest extends TestCase
 		$this->policy = factory('App\Policy')->create([
 				'code' => 'test_code',
 				'expect' => '2999001',
+				'status' => 'active',
 				'recommend' => [2],
 			]);
 
@@ -25,8 +26,8 @@ class PolicyStatusTest extends TestCase
 
 	/** @test */
 	public function won_while_new_opencode_tail_in_recommend()
-	{	
-		$this->assertEquals(null, $this->policy->status);
+	{
+		$this->assertEquals('active', $this->policy->status);
 
 		$this->lottery->update([
 				'expect' => '2999001',
@@ -38,7 +39,7 @@ class PolicyStatusTest extends TestCase
 	/** @test */
 	public function lose_while_new_opencode_tail_not_in_recommend()
 	{	
-		$this->assertEquals(null, $this->policy->status);
+		$this->assertEquals('active', $this->policy->status);
 
 		$this->lottery->update([
 				'expect' => '2999001',
