@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 // });
 
 
+Route::get('expects', 'SettingController@expects');
 Route::get('policies/next', 'PolicyController@next')->middleware('auth:api');
 Route::apiResource('policies', 'PolicyController')->middleware('auth:api');
 Route::post('policies/{policy}/active', 'PolicyController@active')->middleware('auth:api');

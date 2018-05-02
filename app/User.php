@@ -26,6 +26,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // protected $withCount = ['policies_count'];
     
     public function policies()
     {
@@ -39,22 +41,24 @@ class User extends Authenticatable
 
     public static function firstOrCreateBy($wechatUser)
     {
-        return self::where('openid', $wechatUser['openid'])->firstOrCreate([
-                'openid' => $wechatUser['openid']
+        return self::where('openid', $wechatUser['id'])->firstOrCreate([
+                'openid' => $wechatUser['id']
             ], [
                 'name' => $wechatUser['nickname'],
                 'api_token' => str_random(60),
-                'avatar' => $wechatUser['headimgurl']
+                'avatar' => $wechatUser['avatar']
             ]);
     }
 
     public function toArray()
     {
+        $used = $this->policies()->whereNotNull('status')->count();
         return [
             'api_token' => $this->api_token,
             'name' => $this->name,
             'avatar' => $this->avatar,
-            'tickets_qty' => $this->tickets_qty
+            'tickets_qty' => $this->tickets_qty,
+            'tickets_used' => $used
         ];
     }
 }

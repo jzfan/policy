@@ -17,7 +17,7 @@ class WxOauthController extends Controller
     public function user()
     {
         $accessToken = $this->oauth->getAccessToken(request('code'));
-        $wechatUser = $this->oauth->getUserByToken($accessToken);
+        $wechatUser = $this->oauth->user($accessToken);
 
         return User::firstOrCreateBy($wechatUser);
     }

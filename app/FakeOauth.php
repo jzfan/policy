@@ -14,12 +14,12 @@ class FakeOauth
         return 'http://192.168.1.222:8080/oauth/callback?code=iloveyou';
     }
 
-    public function getUserByToken($accessToken)
+    public function user($accessToken)
     {
         return [
-            'openid' => '123456',
+            'id' => '123456',
             'nickname' => 'Fake User',
-            'headimgurl' => 'https://fakeimg.pl/100/'
+            'avatar' => 'https://fakeimg.pl/100/'
         ];
     }
 

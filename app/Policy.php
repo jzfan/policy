@@ -13,12 +13,12 @@ class Policy extends Model
         'recommend' => 'array'
     ];
 
-    protected static function boot()
-    {
-        static::created( function ($policy) {
-            $policy->user->decrement('tickets_qty');
-        });
-    }
+    // protected static function boot()
+    // {
+    //     static::created( function ($policy) {
+    //         $policy->user->decrement('tickets_qty');
+    //     });
+    // }
 
     public function user()
     {
@@ -51,6 +51,7 @@ class Policy extends Model
             'number' => $this->number,
             'number' => $this->number,
             'recommend' => $this->recommend,
+            'created_at' => $this->created_at->format('Y-m-d H:i'),
         ];
     }
  

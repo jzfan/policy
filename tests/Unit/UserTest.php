@@ -14,8 +14,8 @@ class UserTest extends TestCase
 	{
 		$wechatUser = [
 			'nickname' => 'Fake Wechat User',
-			'openid' => '1234',
-			'headimgurl' => 'fake avatar'
+			'id' => '1234',
+			'avatar' => 'fake avatar'
 		];
 		$this->assertCount(0, User::all());
 		$user = User::firstOrCreateBy($wechatUser);
@@ -31,8 +31,8 @@ class UserTest extends TestCase
 		$user = factory('App\User')->create(['openid' => 'abcd']);
 		$wechatUser = [
 			'nickname' => 'Fake Wechat User',
-			'openid' => $user->openid,
-			'headimgurl' => 'fake avatar'
+			'id' => $user->openid,
+			'avatar' => 'fake avatar'
 		];
 		$this->assertCount(1, User::all());
 		$user = User::firstOrCreateBy($wechatUser);
