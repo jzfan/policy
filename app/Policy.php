@@ -33,8 +33,9 @@ class Policy extends Model
     			'expect' => $lottery->expect,
     		])->get();
     	foreach ($all as $one) {
-    		if (in_array($lottery->tail(), $one->recommend)) {
-    			$one->update(['status' => 'won']);
+            $tail = $lottery->tail();
+    		if (in_array($tail, $one->recommend)) {
+    			$one->update(['status' => 'won', 'win_number' => $tail]);
     		} else {
     			$one->update(['status' => 'lose']);
     		}
@@ -50,6 +51,7 @@ class Policy extends Model
             'status' => $this->status,
             'number' => $this->number,
             'number' => $this->number,
+            'win_number' => $this->win_number,
             'recommend' => $this->recommend,
             'created_at' => $this->created_at->format('Y-m-d H:i'),
         ];

@@ -17,6 +17,11 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+// for test only
+Route::patch('users', function () {
+	auth()->user()->increment('tickets_qty', request('tickets_qty'));
+	return 'give 10 tickets';
+})->middleware('auth:api');
 
 Route::get('expects', 'SettingController@expects');
 Route::get('policies/next', 'PolicyController@next')->middleware('auth:api');

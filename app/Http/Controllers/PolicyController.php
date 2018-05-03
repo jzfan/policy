@@ -10,7 +10,7 @@ class PolicyController extends Controller
 {
     public function index()
     {
-        return auth()->user()->policies()->orderBy('id', 'desc')->get();
+        return auth()->user()->policies()->whereNotNull('status')->orderBy('id', 'desc')->simplePaginate(10);
     }
 
     public function store(Request $request)
@@ -39,6 +39,15 @@ class PolicyController extends Controller
                 ->where('expect', config('lottery.'.request('code').'.next'))
                 ->where('status', null)
                 ->first();  
+    }
+
+    public function update(Policy $policy)
+    {
+        $data = request()->validate([
+            'status' => 'required|in:rewarded'
+        ]);
+        $policy->update($data);
+        return 'rewarded';
     }
 
 }

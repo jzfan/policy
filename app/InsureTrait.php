@@ -41,7 +41,7 @@ trait InsureTrait
    {
    		$range = range($min, $max);
    		$arr = array_flip($range);
-      unset($arr[$number]);
+      unset($arr[(int)$number]);
    		return array_rand($arr, $odds);
    }
 }

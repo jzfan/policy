@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call( function () {
-            // $all = (new FcApiGateway)->fetchAll();
             foreach ((new FcApiGateway)->fetchAll() as $one) {
                 \App\Lottery::updateIfNewOpen($one);
             }
