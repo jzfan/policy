@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 // });
 
 // for test only
-Route::patch('users', function () {
+Route::put('users', function () {
 	auth()->user()->increment('tickets_qty', request('tickets_qty'));
 	return 'give 10 tickets';
 })->middleware('auth:api');
