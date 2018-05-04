@@ -10,7 +10,7 @@ class PolicyController extends Controller
 {
     public function index()
     {
-        return auth()->user()->policies()->whereNotNull('status')->orderBy('id', 'desc')->simplePaginate(10);
+        return auth()->user()->policies()->whereNotNull('status')->orderBy('id', 'desc')->simplePaginate(5);
     }
 
     public function store(Request $request)

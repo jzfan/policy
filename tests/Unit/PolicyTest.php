@@ -20,5 +20,4 @@ class PolicyTest extends TestCase
 			$this->assertNotContains($selected, $recommend);
 		}
 	}
-
 }

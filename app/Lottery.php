@@ -53,6 +53,6 @@ class Lottery extends Model
     public function tail()
     {
     	$arr = preg_split('/[,+]/', $this->opencode);
-    	return array_pop($arr);
+    	return (int)array_pop($arr);
     }
 }

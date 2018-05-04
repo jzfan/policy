@@ -17,10 +17,10 @@ class CreatePoliciesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->string('expect');
-            $table->string('number');
+            $table->smallInteger('number')->unsigned();
             $table->json('recommend');
             $table->string('code', 10);
-            $table->string('win_number', 10)->nullable();
+            $table->smallInteger('win_number')->unsigned()->nullable();
             $table->string('status', 10)->nullable();
             $table->timestamps();
 
