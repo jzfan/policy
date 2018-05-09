@@ -6,34 +6,31 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class PolicyStatusTest extends TestCase
+class Fc3dPolicyStatusTest extends TestCase
 {
 	public function setUp()
 	{
 		parent::setUp();
-		$this->lottery = factory('App\Lottery')->create([
-				'code' => 'test_code',
-				'expect' => '2002001',
-			]);
 		$this->policy = factory('App\Policy')->create([
-				'code' => 'test_code',
+				'code' => 'fc3d',
 				'expect' => '2999001',
 				'status' => 'active',
-				'recommend' => [2],
+				'recommend' => ['002', '003'],
 			]);
-
 	}
 
 	/** @test */
-	public function won_while_new_opencode_tail_in_recommend()
+	public function won_while_new_opencode_in_recommend()
 	{
 		$this->assertEquals('active', $this->policy->status);
 
-		$this->lottery->update([
+		factory('App\Lottery')->create([
+				'code' => 'fc3d',
 				'expect' => '2999001',
-				'opencode' => '0,0,0,2'
+				'opencode' => '0,0,2',
 			]);
 		$this->assertEquals('won', $this->policy->fresh()->status);
+		$this->assertEquals('002', $this->policy->fresh()->win_number);
 	}
 
 	/** @test */
@@ -41,9 +38,10 @@ class PolicyStatusTest extends TestCase
 	{	
 		$this->assertEquals('active', $this->policy->status);
 
-		$this->lottery->update([
+		factory('App\Lottery')->create([
+				'code' => 'fc3d',
 				'expect' => '2999001',
-				'opencode' => '0,0,0,1'
+				'opencode' => '0,0,1'
 			]);
 		$this->assertEquals('lose', $this->policy->fresh()->status);
 	}

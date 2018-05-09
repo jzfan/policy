@@ -13,11 +13,15 @@ trait LotteryApiTestContract
 	{
 		$data = $this->gateway->fetchAll();
 		$this->assertEquals(count($this->gateway->hosts), count($data));
-		foreach ($data as $row) {
-			$this->assertArrayHasKey('code', $row);
-			$this->assertArrayHasKey('expect', $row);
-			$this->assertArrayHasKey('opencode', $row);
-			$this->assertArrayHasKey('opentime', $row);
+
+		foreach ($data as $group) {
+			foreach ($group as $row) {
+				$this->assertArrayHasKey('code', $row);
+				$this->assertArrayHasKey('expect', $row);
+				$this->assertArrayHasKey('opencode', $row);
+				$this->assertArrayHasKey('opentime', $row);
+			}
+			// dd(array_keys($row));
 		}
 	}
 }

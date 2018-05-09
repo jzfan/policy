@@ -28,7 +28,7 @@ class LotteryTest extends TestCase
 	}
 
 	/** @test */
-	public function only_update_new_open()
+	public function only_create_new_open()
 	{
 		$lottery = factory('App\Lottery')->create();
 		$data = [
@@ -37,13 +37,12 @@ class LotteryTest extends TestCase
 				'opencode' => '0,0,0,0',
 				'opentime' => $lottery->opentime,
 		];
-		Lottery::updateIfNewOpen($data);
-		$this->assertNotEquals('0,0,0,0', $lottery->fresh()->opencode);
+		Lottery::createIfNewOpen($data);
+		$this->assertCount(1, Lottery::where('code', $lottery->code)->get());
 
 		$data['expect'] = '2999001';
-		Lottery::updateIfNewOpen($data);
+		Lottery::createIfNewOpen($data);
 
-		$this->assertEquals('2999001', $lottery->fresh()->expect);
-		$this->assertEquals('0,0,0,0', $lottery->fresh()->opencode);
+		$this->assertCount(2, Lottery::where('code', $lottery->code)->get());
 	}
 }

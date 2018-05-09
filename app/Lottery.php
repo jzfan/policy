@@ -12,7 +12,7 @@ class Lottery extends Model
     protected static function boot()
     {
     	parent::boot();
-    	static::updated( function ($lottery) {
+    	static::created( function ($lottery) {
     		Policy::wonOrLose($lottery);
     	});
     }
@@ -40,13 +40,13 @@ class Lottery extends Model
     	return date('Y') . '001';
     }
 
-    public static function updateIfNewOpen($data)
+    public static function createIfNewOpen($data)
     {
-        $lottery = self::firstOrCreate(['code' => $data['code']], $data);
+        $lottery = self::firstOrCreate(['code' => $data['code'], 'expect' => $data['expect']], $data);
             // dump($lottery->toArray());
-        if ($lottery->expect != $data['expect']) {
-            $lottery->update($data);
-        }
+        // if ($lottery->expect != $data['expect']) {
+        //     $lottery->update($data);
+        // }
 		return $lottery;
     }
 
@@ -54,5 +54,24 @@ class Lottery extends Model
     {
     	$arr = preg_split('/[,+]/', $this->opencode);
     	return (int)array_pop($arr);
+    }
+
+    public function winNumber()
+    {
+        if ($this->code == 'ssq') {
+            return (int)explode('+', $this->opencode)[1];
+        }
+        if ($this->code == 'fc3d') {
+            return (int)str_replace(',', '', $this->opencode);
+        }
+    }
+
+    public function toArray()
+    {
+        return [
+            'code' => $this->code,
+            'expect' => $this->expect,
+            'opencode' => $this->opencode
+        ];
     }
 }

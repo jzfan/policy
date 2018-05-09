@@ -13,7 +13,7 @@ class FcApiGateway
 		$this->client = new Client;
 	}
 
-	public function fetchOne($host)
+	public function fetchGroupByCode($host)
 	{
 		$res = $this->client->get($host)->getBody()->getContents();
 		$res = json_decode($res);
@@ -27,17 +27,21 @@ class FcApiGateway
 	{
 		$arr = [];
 		foreach ($this->hosts as $host) {
-			$arr[] = self::fetchOne($host);
+			$arr[] = self::fetchGroupByCode($host);
 		}
 		return $arr;
 	}
 	protected function format($row)
 	{
-		return [
-			'code' => $row->code,
-			'expect' => $row->data[0]->expect,
-			'opencode' => $row->data[0]->opencode,
-			'opentime' => $row->data[0]->opentime,
-		];
+		$arr = [];
+		foreach ($row->data as $one) {
+			$arr[] = [
+				'code' => $row->code,
+				'expect' => $one->expect,
+				'opencode' => $one->opencode,
+				'opentime' => $one->opentime,
+			];
+		}
+		return $arr;
 	}
 }

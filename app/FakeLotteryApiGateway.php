@@ -16,7 +16,7 @@ class FakeLotteryApiGateway
 	{
 		$arr = [];
 		foreach ($this->hosts as $host) {
-			$arr[] = factory('App\Lottery')->raw();
+			$arr[$host][] = factory('App\Lottery')->raw(['code' => $host]);
 		}
 		return $arr;
 	}
