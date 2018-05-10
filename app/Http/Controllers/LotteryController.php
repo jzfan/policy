@@ -7,20 +7,12 @@ use Illuminate\Http\Request;
 
 class LotteryController extends Controller
 {
-
-    public function countGroupBy()
+    public function count()
     {
-    	$data = request()->validate([
-    		'code' => 'required'
-    	]);
-    	$group = Lottery::where($data)->get()
-	    			->groupBy(function ($item) {
-	    				// dd($item->winNumber());
-			    		return $item->winNumber();
-		    	});
-	    return $group;
-
+        $data = request()->validate([
+            'code' => 'required|in:ssq,fc3d'
+        ]);
+        $method = 'count' . studly_case($data['code']) . 'ByWinNumber';
+        return Lottery::$method($data);
     }
-
-
 }

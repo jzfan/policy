@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lottery extends Model
 {
+    use LotteryCountTrait;
 
     protected $guarded = [];
 
@@ -42,12 +43,7 @@ class Lottery extends Model
 
     public static function createIfNewOpen($data)
     {
-        $lottery = self::firstOrCreate(['code' => $data['code'], 'expect' => $data['expect']], $data);
-            // dump($lottery->toArray());
-        // if ($lottery->expect != $data['expect']) {
-        //     $lottery->update($data);
-        // }
-		return $lottery;
+        return self::firstOrCreate(['code' => $data['code'], 'expect' => $data['expect']], $data);
     }
 
     public function tail()

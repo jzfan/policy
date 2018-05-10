@@ -31,7 +31,7 @@ Route::post('policies/{policy}/active', 'PolicyController@active')->middleware('
 // Route::post('register', 'Auth\ApiAuthController@register');
 Route::post('tickets', 'TicketController@prepay')->middleware('auth:api');
 // Route::get('lotteries', 'LotteryController@index');
-Route::get('lotteries/count', 'LotteryController@countGroupBy');
+Route::get('lotteries/count', 'LotteryController@count');
 
 Route::get('/oauth/url', 'WxOauthController@url');
 Route::get('/oauth/user', 'WxOauthController@user');
