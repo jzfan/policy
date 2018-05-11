@@ -45,4 +45,5 @@ class LotteryTest extends TestCase
 
 		$this->assertCount(2, Lottery::where('code', $lottery->code)->get());
 	}
+
 }

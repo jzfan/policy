@@ -16,12 +16,6 @@ trait InsureTrait
     	return Policy::create($data);
     }
 
-    // public static function hasInsured($data)
-    // {
-    //     $p = Policy::where('code', $data['code'])->where('expect', self::getExpect($data['code']))->first(); 
-    //     return $p != null;
-    // }
-
     protected static function getExpect($code)
     {
       return config('lottery.'.$code.'.next');

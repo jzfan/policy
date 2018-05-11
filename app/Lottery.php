@@ -20,17 +20,24 @@ class Lottery extends Model
 
     public static function config()
     {
-		$lottery = self::groupBy('code')->orderBy('id', 'desc')->get();
+        $lottery = self::current();
 		$cached = \Cache::remember('lottery', 1, function () use ($lottery) {
 			return $lottery->map( function ($row) {
-				        return [ 
+				        return [
 				        	$row['code'] => [
 				        		'next' => self::calcNextExpect($row['expect'])
-				        	]
+                            ]
 				        ];
 				    })->collapse();
 		});
 		config()->set('lottery', $cached);
+        return $cached;
+    }
+
+    public static function current()
+    {
+        $max_ids = self::select('code',  \DB::raw('max(id) as max_id'))->groupBy('code')->get()->pluck('max_id');
+        return self::whereIn('id', $max_ids)->get();
     }
 
     public static function calcNextExpect($lastExpect)
@@ -65,9 +72,11 @@ class Lottery extends Model
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'code' => $this->code,
             'expect' => $this->expect,
-            'opencode' => $this->opencode
+            'opencode' => $this->opencode,
+            'created_at' => $this->created_at->format('Y-m-d')
         ];
     }
 }

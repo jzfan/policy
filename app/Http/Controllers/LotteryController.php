@@ -15,4 +15,14 @@ class LotteryController extends Controller
         $method = 'count' . studly_case($data['code']) . 'ByWinNumber';
         return Lottery::$method($data);
     }
+
+    public function current()
+    {
+        return Lottery::current();
+    }
+
+    public function history($code)
+    {
+        return Lottery::where('code', $code)->orderBy('expect', 'desc')->paginate(10);
+    }
 }

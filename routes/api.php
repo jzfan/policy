@@ -30,8 +30,9 @@ Route::post('policies/{policy}/active', 'PolicyController@active')->middleware('
 // Route::apiResource('users', 'UserController');
 // Route::post('register', 'Auth\ApiAuthController@register');
 Route::post('tickets', 'TicketController@prepay')->middleware('auth:api');
-// Route::get('lotteries', 'LotteryController@index');
+Route::get('lotteries/{code}/history', 'LotteryController@history');
 Route::get('lotteries/count', 'LotteryController@count');
+Route::get('lotteries/current', 'LotteryController@current');
 
 Route::get('/oauth/url', 'WxOauthController@url');
 Route::get('/oauth/user', 'WxOauthController@user');
