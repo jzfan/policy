@@ -12,8 +12,8 @@ class LotteryController extends Controller
         $data = request()->validate([
             'code' => 'required|in:ssq,fc3d'
         ]);
-        $method = 'count' . studly_case($data['code']) . 'ByWinNumber';
-        return Lottery::$method($data);
+        $method = 'count' . studly_case($data['code']);
+        return Lottery::$method(100);
     }
 
     public function current()

@@ -4,22 +4,45 @@ namespace App;
 
 trait LotteryCountTrait
 {
-	public static function countSsqByWinNumber()
+	public static function countSsq($take)
 	{
-	    return self::where('code', 'ssq')->get()
-	                        ->groupBy(function ($item) {
-	                            return $item->winNumber();
-	                    })->transform(function ($item, $key) {
-	                        return [
-	                                    'number' => $key,
-	                                    'count' => $item->count()
-	                                ];
-	            })->sortBy('number')->values();
+		$ssq = self::groupByColor($take);
+		$blue = self::formatCount($ssq->pluck('blue'));
+		$red = self::formatCount($ssq->pluck('red')->collapse());
+		return compact(['blue', 'red']);
+	}
+	protected static function groupByColor($take)
+	{
+		return self::select(['id', 'opencode'])->where('code', 'ssq')->take($take)->get()
+						->transform( function($item) {
+							$balls = self::getSsqBalls($item->opencode);
+							return [
+									'id' => $item->id,
+									'red' => $balls['red'],
+									'blue' => $balls['blue'],
+								];
+						});
+	}
+	protected static function formatCount($group)
+	{
+		return collect(array_count_values($group->toArray()))->transform( function ($value, $key) {
+					return [
+						'number' => $key,
+						'count' => $value
+					];
+				})->values();
+	}
+	protected static function getSsqBalls($opencode)
+	{
+		$explode = explode('+', $opencode);
+		$red = explode(',', $explode[0]);
+		$blue = (int)$explode[1];
+		return compact(['blue', 'red']);
 	}
 
-	public static function countFc3dByWinNumber()
+	public static function countFc3d($take)
 	{
-	    $opencodes = self::where('code', 'fc3d')->select('opencode')->get()->pluck('opencode')
+	    $opencodes = self::where('code', 'fc3d')->select('opencode')->take($take)->get()->pluck('opencode')
 	            ->transform(function ($opencode) {
 	                return explode(',', $opencode);
 	            });
