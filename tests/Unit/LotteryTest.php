@@ -19,15 +19,6 @@ class LotteryTest extends TestCase
 	}
 
 	/** @test */
-	public function it_can_get_tail_of_opencode()
-	{
-		$lottery = factory('App\Lottery')->make(['opencode' => '1,2,3']);
-		$this->assertEquals(3, $lottery->tail());
-		$lottery = factory('App\Lottery')->make(['opencode' => '13,14,20,21,25,33+07']);
-		$this->assertEquals(7, $lottery->tail());
-	}
-
-	/** @test */
 	public function only_create_new_open()
 	{
 		$lottery = factory('App\Lottery')->create();

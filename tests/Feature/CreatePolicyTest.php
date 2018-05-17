@@ -29,13 +29,19 @@ class CreatePolicyTest extends TestCase
 			 ->assertStatus(201)
 			->decodeResponseJson();
 		$this->assertEquals($selected, $res['number']);
-		foreach ($res['recommend'] as $n) {
+		// dd($res['recommend']);
+		foreach ($res['recommend']['blue'] as $n) {
 			$this->assertTrue(is_int($n));
 			$this->assertNotEquals($selected, $n);
 			$this->assertLessThanOrEqual(16, $selected);
 			$this->assertGreaterThanOrEqual(1, $selected);
 		}
-		$this->assertCount(config('setting.ssq_odds'), $res['recommend']);
+		foreach ($res['recommend']['red'] as $red) {
+			$this->assertTrue(is_int($red));
+			$this->assertGreaterThanOrEqual(1, $red);
+			$this->assertLessThanOrEqual(33, $red);
+		}
+		// $this->assertCount(config('setting.ssq_odds'), $res['recommend']);
 	}
 
 	/** @test */
@@ -51,12 +57,24 @@ class CreatePolicyTest extends TestCase
 					->decodeResponseJson();
 
 		$this->assertEquals($selected, $res['number']);
-		foreach ($res['recommend'] as $n) {
-			$this->assertTrue(is_int($n));
-			$this->assertNotEquals($selected, $n);
-			$this->assertLessThanOrEqual(999, $selected);
-			$this->assertGreaterThanOrEqual(0, $selected);
+		$strSelected = str_pad($selected, 3, '0', STR_PAD_LEFT);
+		// dd($res);
+		$index = 0;
+		foreach ($res['recommend'] as $group) {
+			$this->checkGroupExcept($group, $strSelected[$index]);
+			$index++;
 		}
-		$this->assertCount(config('setting.fc3d_odds'), $res['recommend']);
+		// $this->assertCount(config('setting.fc3d_odds'), $res['recommend']);
+	}
+
+	protected function checkGroupExcept($group, $except)
+	{
+		$this->assertCount(3, $group);
+		foreach ($group as $n) {
+			$this->assertTrue(is_int($n));
+			$this->assertNotEquals($except, $n);
+			$this->assertLessThanOrEqual(9, $n);
+			$this->assertGreaterThanOrEqual(0, $n);
+		}
 	}
 }

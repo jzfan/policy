@@ -20,7 +20,7 @@ class CreatePoliciesTable extends Migration
             $table->smallInteger('number')->unsigned();
             $table->json('recommend');
             $table->string('code', 10);
-            $table->smallInteger('win_number')->unsigned()->nullable();
+            $table->json('win_number')->nullable();
             $table->string('status', 10)->nullable();
             $table->timestamps();
 

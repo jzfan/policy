@@ -7,21 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 class Lottery extends Model
 {
     use LotteryCountTrait;
-
     protected $guarded = [];
 
     protected static function boot()
     {
     	parent::boot();
     	static::created( function ($lottery) {
-    		Policy::wonOrLose($lottery);
+            $lottery->policies->each->wonOrLose();
     	});
+    }
+
+    public function type()
+    {
+        if ($this->code == 'ssq') {
+            return new Ssq($this->opencode);
+        }
+        if ($this->code == 'fc3d') {
+            return new Fc3d($this->opencode);
+        }
+    }
+
+    public function policies()
+    {
+        return $this->hasMany(Policy::class, 'expect', 'expect');
     }
 
     public static function config()
     {
-        $lottery = self::current();
-		$cached = \Cache::remember('lottery', 1, function () use ($lottery) {
+        $cached = \Cache::remember('lottery', 1, function () {
+            $lottery = self::current();
 			return $lottery->map( function ($row) {
 				        return [
 				        	$row['code'] => [
@@ -53,20 +67,10 @@ class Lottery extends Model
         return self::firstOrCreate(['code' => $data['code'], 'expect' => $data['expect']], $data);
     }
 
-    public function tail()
-    {
-    	$arr = preg_split('/[,+]/', $this->opencode);
-    	return (int)array_pop($arr);
-    }
 
-    public function winNumber()
+    public function checkByRecommend($recommend)
     {
-        if ($this->code == 'ssq') {
-            return (int)explode('+', $this->opencode)[1];
-        }
-        if ($this->code == 'fc3d') {
-            return (int)str_replace(',', '', $this->opencode);
-        }
+        return $this->type()->check($recommend);
     }
 
     public function toArray()

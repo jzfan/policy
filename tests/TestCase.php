@@ -17,6 +17,6 @@ abstract class TestCase extends BaseTestCase
         $this->withoutExceptionHandling();
         \Artisan::call('db:seed');
         Lottery::config();
-        Setting::config();
+        // Setting::config();
     }
 }

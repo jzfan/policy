@@ -23,15 +23,23 @@ trait InsureTrait
 
     public static function recommendForSsq($number)
    {
-   		return self::getRandsExcept($number, 1, 16, config('setting.ssq_odds'));
+   		$blue = self::getRandsExcept($number, 1, 16);
+      $red = array_random(range(1, 33), 3);
+      return compact(['red', 'blue']);
    }
 
    public static function recommendForFc3d($number)
    {
-   		return self::getRandsExcept($number, 0, 999, config('setting.fc3d_odds'));
+      $str = str_pad($number, 3, '0', STR_PAD_LEFT);
+   		return [
+          'bai' => self::getRandsExcept($str[0], 0, 9),
+          'shi' => self::getRandsExcept($str[1], 0, 9),
+          'ge' => self::getRandsExcept($str[2], 0, 9)
+      ]; 
+        
    }
 
-   protected static function getRandsExcept($number, $min, $max, $odds)
+   protected static function getRandsExcept($number, $min, $max, $odds=3)
    {
    		$range = range($min, $max);
    		$arr = array_flip($range);

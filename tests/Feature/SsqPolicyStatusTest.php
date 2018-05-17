@@ -15,33 +15,41 @@ class SsqPolicyStatusTest extends TestCase
 				'code' => 'ssq',
 				'expect' => '2999001',
 				'status' => 'active',
-				'recommend' => ['02'],
+				'recommend' => [
+						'blue' => [1, 2, 3],
+						'red' => [4, 5, 6]
+					],
 			]);
 	}
 
 	/** @test */
-	public function won_while_new_opencode_tail_in_recommend()
+	public function won_while_new_opencode_matches_any_recommend_blue_red()
 	{
 		$this->assertEquals('active', $this->policy->status);
-
 		factory('App\Lottery')->create([
 				'code' => 'ssq',
 				'expect' => '2999001',
-				'opencode' => '0,0,0+02'
+				'opencode' => '01,02,03,04,05,06+07'
 			]);
-		$this->assertEquals('won', $this->policy->fresh()->status);
+		$this->policy = $this->policy->fresh();
+		$this->assertEquals('won', $this->policy->status);
+		$this->assertEquals($this->policy->win_number['red'], ['04', '05', '06']);
+		$this->assertEquals($this->policy->win_number['blue'], []);
 	}
 
 	/** @test */
-	public function lose_while_new_opencode_tail_not_in_recommend()
+	public function lose_while_new_opencode_dont_matches_any_recommend_blue_red()
 	{	
 		$this->assertEquals('active', $this->policy->status);
-
 		factory('App\Lottery')->create([
 				'code' => 'ssq',
 				'expect' => '2999001',
-				'opencode' => '0,0,0+01'
+				'opencode' => '01,02,03,08,09,10+08'
 			]);
-		$this->assertEquals('lose', $this->policy->fresh()->status);
+		$this->policy = $this->policy->fresh();
+		$this->assertEquals($this->policy->win_number['blue'], []);
+		$this->assertEquals($this->policy->win_number['red'], []);
+		$this->assertEquals('lose', $this->policy->status);
 	}
+
 }

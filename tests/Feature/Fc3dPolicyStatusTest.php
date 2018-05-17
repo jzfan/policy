@@ -15,7 +15,11 @@ class Fc3dPolicyStatusTest extends TestCase
 				'code' => 'fc3d',
 				'expect' => '2999001',
 				'status' => 'active',
-				'recommend' => ['002', '003'],
+				'recommend' => [
+						'bai' => [1, 2, 3],
+						'shi' => [4, 5, 6],
+						'ge' => [7, 8, 9]
+				],
 			]);
 	}
 
@@ -27,10 +31,13 @@ class Fc3dPolicyStatusTest extends TestCase
 		factory('App\Lottery')->create([
 				'code' => 'fc3d',
 				'expect' => '2999001',
-				'opencode' => '0,0,2',
+				'opencode' => '1,5,9',
 			]);
 		$this->assertEquals('won', $this->policy->fresh()->status);
-		$this->assertEquals('002', $this->policy->fresh()->win_number);
+		$win_number = $this->policy->fresh()->win_number;
+		$this->assertEquals('1', $win_number['bai']);
+		$this->assertEquals('5', $win_number['shi']);
+		$this->assertEquals('9', $win_number['ge']);
 	}
 
 	/** @test */

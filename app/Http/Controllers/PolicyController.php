@@ -19,9 +19,6 @@ class PolicyController extends Controller
                 'number' => 'required',
                 'code' => 'required',
             ]);
-        // if (Policy::hasInsured($data)) {
-        //     return;
-        // }
         $policy = Policy::insure($data);
         return response()->json($policy, 201);
     }

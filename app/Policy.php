@@ -10,36 +10,24 @@ class Policy extends Model
     
 	protected $guarded = [];
     protected $casts = [
-        'recommend' => 'array'
+        'recommend' => 'array',
+        'win_number' => 'array'
     ];
 
-    // protected static function boot()
-    // {
-    //     static::created( function ($policy) {
-    //         $policy->user->decrement('tickets_qty');
-    //     });
-    // }
+    public function lottery()
+    {
+        return $this->belongsTo(Lottery::class, 'expect', 'expect');
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public static function wonOrLose($lottery)
+    public function wonOrLose()
     {
-    	$all = self::where([
-    			'code' => $lottery->code,
-                'status' => 'active',
-    			'expect' => $lottery->expect,
-    		])->get();
-    	foreach ($all as $one) {
-            $winNumber = $lottery->winNumber();
-    		if (in_array($winNumber, $one->recommend)) {
-    			$one->update(['status' => 'won', 'win_number' => $winNumber]);
-    		} else {
-    			$one->update(['status' => 'lose']);
-    		}
-    	}
+        $data = $this->lottery->checkByRecommend($this->recommend);
+        return $this->update($data);
     }
 
     public function toArray()
