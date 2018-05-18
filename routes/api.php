@@ -33,6 +33,7 @@ Route::post('tickets', 'TicketController@prepay')->middleware('auth:api');
 Route::get('lotteries/{code}/history', 'LotteryController@history');
 Route::get('lotteries/count', 'LotteryController@count');
 Route::get('lotteries/current', 'LotteryController@current');
+Route::put('accounts', 'AccountController@update')->middleware('auth:api');
 
 Route::get('/oauth/url', 'WxOauthController@url');
 Route::get('/oauth/user', 'WxOauthController@user');

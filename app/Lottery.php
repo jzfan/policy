@@ -50,8 +50,8 @@ class Lottery extends Model
 
     public static function current()
     {
-        $max_ids = self::select('code',  \DB::raw('max(id) as max_id'))->groupBy('code')->get()->pluck('max_id');
-        return self::whereIn('id', $max_ids)->get();
+        $max_expect = self::select('code',  \DB::raw('max(expect) as max_expect'))->groupBy('code')->get()->pluck('max_expect');
+        return self::whereIn('expect', $max_expect)->get();
     }
 
     public static function calcNextExpect($lastExpect)
