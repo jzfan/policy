@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\FakeLotteryApiGateway;
+use App\Fake\FakeLotteryApiGateway;
 
 class FackLotteryApiTest extends TestCase
 {

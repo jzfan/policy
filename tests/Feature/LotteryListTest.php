@@ -13,7 +13,7 @@ class LotteryListTest extends TestCase
 	{
 		factory('App\Lottery', 2)->create(['code' => 'ssq', 'opencode'=> '0,0,0+01']);
 		factory('App\Lottery', 3)->create(['code' => 'ssq', 'opencode'=> '0,0,0+12']);
-		$this->get('/api/lotteries/count?code=ssq')
+		$this->get('/api/lotteries/count?code=ssq&limit=100')
 			->assertStatus(200)
 			->assertJsonFragment(['number' => 1, 'count' => 2])
 			->assertJsonFragment(['number' => 12, 'count' => 3]);
@@ -24,7 +24,7 @@ class LotteryListTest extends TestCase
 	{
 		factory('App\Lottery')->create(['code' => 'fc3d', 'opencode'=> '1,2,3']);
 		factory('App\Lottery')->create(['code' => 'fc3d', 'opencode'=> '3,2,1']);
-		$res = $this->get('/api/lotteries/count?code=fc3d')
+		$res = $this->get('/api/lotteries/count?code=fc3d&limit=100')
 			->assertStatus(200)
 			->assertJsonStructure(['bai', 'shi', 'ge'])
 			->decodeResponseJson();

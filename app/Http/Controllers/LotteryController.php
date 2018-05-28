@@ -10,10 +10,11 @@ class LotteryController extends Controller
     public function count()
     {
         $data = request()->validate([
-            'code' => 'required|in:ssq,fc3d'
+            'code' => 'required|in:ssq,fc3d',
+            'limit' => 'required|integer'
         ]);
         $method = 'count' . studly_case($data['code']);
-        return Lottery::$method(100);
+        return Lottery::$method($data['limit']);
     }
 
     public function current()

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\PrepayRank;
-use App\PaymentGateway;
+use App\Billing\PaymentGateway;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller

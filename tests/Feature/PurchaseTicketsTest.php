@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\FakePaymentGateway;
+use App\Billing\FakePaymentGateway;
 
 class PurchaseTicketsTest extends TestCase
 {

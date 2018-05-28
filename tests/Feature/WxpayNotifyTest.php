@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\PrepayRank;
 use Tests\TestCase;
-use App\FakePaymentGateway;
+use App\Billing\FakePaymentGateway;
 
 class WxpayNotifyTest extends TestCase
 {

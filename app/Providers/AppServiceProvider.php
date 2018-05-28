@@ -18,8 +18,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Lottery::config();
         }
         if (env('APP_DEBUG')) {
-            // app('wechat.official_account')
-            $this->app->instance('wechat.official_account', new \App\FakeOfficialAccount);
+            // $this->app->instance('wechat.official_account', new \App\Fake\FakeOfficialAccount);
+            $this->app['wechat.official_account']['oauth'] = new \App\Fake\FakeWechatOauthProvider(
+                new \Symfony\Component\HttpFoundation\Request, null, null
+            );
         }
     }
 
@@ -30,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\PaymentGateway', function ($app) {
-            return new \App\WxPaymentGateway;
+        $this->app->bind('App\Billing\PaymentGateway', function ($app) {
+            return new \App\Billing\WxPaymentGateway;
         });
     }
 }

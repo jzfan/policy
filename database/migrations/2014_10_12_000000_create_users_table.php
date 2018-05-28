@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('openid');
             $table->string('avatar');
+            $table->string('qrcode')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
