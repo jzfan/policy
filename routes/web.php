@@ -23,7 +23,3 @@ Route::any('/wechat', 'WechatController@serve');
 	});
 // });
 Route::any('/wxpay/notify', 'OrderController@wxNotify');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

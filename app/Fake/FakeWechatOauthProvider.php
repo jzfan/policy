@@ -35,7 +35,7 @@ class FakeWechatOauthProvider extends AbstractProvider implements ProviderInterf
         return 'http://192.168.1.222:8080/oauth/url';
     }
 
-    protected function getUserByToken(AccessTokenInterface $token)
+    public function getUserByToken(AccessTokenInterface $token)
     {
     	return $this->FakeUser();
     }

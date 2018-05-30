@@ -9,7 +9,8 @@ class QrcodeController extends Controller
     public function store()
     {
     	$app = app('wechat.official_account');
-    	$result = $app->qrcode->forever(auth()->id());
-    	dd($result);
+    	$qrcode = $app->qrcode->forever(auth()->id());
+    	auth()->user()->update(['qrcode_ticket' => $qrcode['ticket']]);
+    	return $qrcode['ticket'];
     }
 }

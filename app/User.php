@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket'
     ];
 
     /**
@@ -50,6 +50,11 @@ class User extends Authenticatable
             ]);
     }
 
+    public static function giveTickets($id)
+    {
+        return self::find($id)->increment('tickets_qty');
+    }
+
     public function toArray()
     {
         $used = $this->policies()->whereNotNull('status')->count();
@@ -59,7 +64,8 @@ class User extends Authenticatable
             'avatar' => $this->avatar,
             'tickets_qty' => $this->tickets_qty,
             'tickets_used' => $used,
-            'account' => $this->account
+            'account' => $this->account,
+            'qrcode_ticket' => $this->qrcode_ticket
         ];
     }
 }
