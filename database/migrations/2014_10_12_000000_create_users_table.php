@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('openid');
             $table->string('avatar');
+            $table->smallInteger('rank')->unsigned()->default(1);
+            $table->unsignedInteger('points')->default(0);
             $table->string('qrcode_ticket')->nullable();
             $table->rememberToken();
             $table->timestamps();

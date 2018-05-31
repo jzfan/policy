@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points'
     ];
 
     /**
@@ -65,7 +65,9 @@ class User extends Authenticatable
             'tickets_qty' => $this->tickets_qty,
             'tickets_used' => $used,
             'account' => $this->account,
-            'qrcode_ticket' => $this->qrcode_ticket
+            'qrcode_ticket' => $this->qrcode_ticket,
+            'rank' => $this->rank,
+            'points' => $this->points
         ];
     }
 }

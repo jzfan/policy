@@ -16,7 +16,7 @@ class FakeWechatOauthProvider extends AbstractProvider implements ProviderInterf
         return [
             'id' => '123456',
             'nickname' => 'Fake User',
-            'avatar' => 'https://fakeimg.pl/100/'
+            'avatar' => 'https://avatars0.githubusercontent.com/u/13995797?s=460&v=4'
         ];
     }
 

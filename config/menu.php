@@ -7,23 +7,13 @@ return [
     	        "url"  => "http://vp.un-sv.com"
     	    ],
     	    [
-    	        "type" => "view",
-    	        "name" => "预测红包",
-    	        "url"  => "http://vp.un-sv.com/insure"
-    	    ],
-    	    [
-    	        "name"       => "会员福利",
-    	        "sub_button" => [
-    	            [
-    	                "type" => "view",
-    	                "name" => "账号",
-    	                "url"  => "http://vp.un-sv.com/account"
-    	            ],
-    	            [
-    	                "type" => "view",
-    	                "name" => "福利",
-    	                "url"  => "http://vp.un-sv.com/benefits"
-    	            ]
-    	        ],
+                "type" => "view",
+                "name" => "预测红包",
+                "url"  => "http://vp.un-sv.com/insure"
+            ],
+            [
+                "type" => "view",
+                "name" => "会员中心",
+                "url"  => "http://vp.un-sv.com/account"
     	    ],
     	];
