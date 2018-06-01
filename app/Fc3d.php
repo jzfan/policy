@@ -26,12 +26,17 @@ class Fc3d
     		'shi' => $this->intersect($this->shi, $recommend['shi']),
     		'ge' => $this->intersect($this->ge, $recommend['ge']),
     	];
-    	$status = empty(array_filter($win_number)) ? 'lose' : 'won';
+    	$status =  $this->allNull($win_number) ? 'lose' : 'won';
     	return compact(['status', 'win_number']);
     }
 
     public function intersect($n, $arr)
     {
     	return in_array($n, $arr) ? $n : null;
+    }
+
+    public function allNull($arr)
+    {
+        return $arr['bai'] === null && $arr['shi'] === null && $arr['ge'] === null;
     }
 }
