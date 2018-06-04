@@ -40,4 +40,26 @@ class TicketController extends Controller
         ]);
     	return response()->json('success', 201);
     }
+
+    public function byPoints()
+    {
+        auth()->user()->lockForUpdate();
+        $points = auth()->user()->points;
+        $tickets_qty = auth()->user()->tickets_qty;
+        if ($points >= 200) {
+            auth()->user()->update(['points' => $points-200, 'tickets_qty' => $tickets_qty+1]);
+        }
+        return auth()->user();
+    }
+
+    public function byRank()
+    {
+        auth()->user()->lockForUpdate();
+        $rank_remain = auth()->user()->rank_remain;
+        $tickets_qty = auth()->user()->tickets_qty;
+        if ($rank_remain >= 1) {
+            auth()->user()->update(['rank_remain' => $rank_remain-1, 'tickets_qty' => $tickets_qty+10]);
+        }
+        return auth()->user();
+    }
 }

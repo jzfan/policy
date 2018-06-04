@@ -20,15 +20,18 @@ class WechatController extends Controller
 
      public function serve()
     {
-    	$this->menu();
+        $this->createMenu();
         $this->server->push(EventMessageHandler::class, Message::EVENT);
         $this->server->push(TextMessageHandler::class, Message::TEXT);
         return $this->server->serve();
     }
 
-    protected function 	menu()
+    protected function createMenu()
     {
-    	$buttons = config('menu');
-    	$this->menu->create($buttons);
+        \Cache::remember('buttons', 10, function() {
+            if (app()->environment() !== 'testing') {
+                $this->menu->create(config('menu'));
+            }
+        });
     }
 }

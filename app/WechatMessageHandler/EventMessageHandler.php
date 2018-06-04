@@ -23,7 +23,7 @@ class EventMessageHandler implements EventHandlerInterface
 	public function handle($payload = null)
 	{
 		if ($this->isNewSubscribeFromQrcode()) {
-			User::giveTickets($this->getQrcodeUserId());
+			User::givePoints($this->getQrcodeUserId());
 		}
 		return '欢迎关注 !';
 	}

@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain'
     ];
 
     /**
@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'rank_remain'
     ];
 
     // protected $withCount = ['policies_count'];
@@ -50,9 +50,9 @@ class User extends Authenticatable
             ]);
     }
 
-    public static function giveTickets($id)
+    public static function givePoints($id)
     {
-        return self::find($id)->increment('tickets_qty');
+        return self::find($id)->increment('points', 100);
     }
 
     public function toArray()
@@ -67,6 +67,7 @@ class User extends Authenticatable
             'account' => $this->account,
             'qrcode_ticket' => $this->qrcode_ticket,
             'rank' => $this->rank,
+            'rank_remain' => $this->rank_remain,
             'points' => $this->points
         ];
     }
