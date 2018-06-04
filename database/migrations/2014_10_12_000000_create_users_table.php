@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('points')->default(0);
             $table->string('qrcode_ticket')->nullable();
             $table->rememberToken();
+            $table->timestamp('sign_at')->nullable();
             $table->timestamps();
         });
     }

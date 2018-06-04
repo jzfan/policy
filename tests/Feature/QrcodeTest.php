@@ -17,8 +17,8 @@ class QrcodeTest extends TestCase
 	/** @test */
 	public function recommender_get_points_after_new_user_subscribed_by_scan_his_qrcode()
 	{
-		$this->post('wechat', ['MsgType' => 'event'])
-			->dump();
+		$this->post('wechat', ['MsgType' => 'event']);
+			// ->dump();
 		// $this->post('/api/qrcodes', [], $this->authHeader)
 		// 	->assertStatus(201);
 	}

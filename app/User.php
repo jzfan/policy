@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain', 'sign_at'
     ];
 
     /**
@@ -26,6 +27,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token', 'rank_remain'
     ];
+
+    public $timestamps = ['sign_at'];
 
     // protected $withCount = ['policies_count'];
     
@@ -55,9 +58,15 @@ class User extends Authenticatable
         return self::find($id)->increment('points', 100);
     }
 
+    public function isSignedToday()
+    {
+        return $this->sign_at !== null && Carbon::parse($this->sign_at)->isToday();
+    }
+
     public function toArray()
     {
         $used = $this->policies()->whereNotNull('status')->count();
+        $signed = $this->isSignedToday();
         return [
             'api_token' => $this->api_token,
             'name' => $this->name,
@@ -68,7 +77,8 @@ class User extends Authenticatable
             'qrcode_ticket' => $this->qrcode_ticket,
             'rank' => $this->rank,
             'rank_remain' => $this->rank_remain,
-            'points' => $this->points
+            'points' => $this->points,
+            'signed' => $signed
         ];
     }
 }
