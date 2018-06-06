@@ -4,6 +4,31 @@ namespace App;
 
 trait LotteryCountTrait
 {
+	public static function checkUserRankForLimit($limit, $by)
+	{
+		if ($by == 'input' && auth()->user() != null && auth()->user()->rank >= 4) {
+			return true;
+		}
+		if ($by == 'select') {
+			switch (auth()->user() != null ? auth()->user()->rank : 1) {
+				default:
+				case 1:
+					$max_limit = 50;
+					break;
+				case 2:
+					$max_limit = 100;
+					break;
+				case 3:
+					$max_limit = 200;
+					break;
+				case 4:
+					return true;
+			}
+			return $max_limit >= $limit;
+		}
+		return false;
+	}
+
 	public static function countSsq($take)
 	{
 		$ssq = self::groupByColor($take);

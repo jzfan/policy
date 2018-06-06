@@ -11,8 +11,12 @@ class LotteryController extends Controller
     {
         $data = request()->validate([
             'code' => 'required|in:ssq,fc3d',
-            'limit' => 'required|integer'
+            'limit' => 'required|integer',
+            'q' => 'required|in:input,select'
         ]);
+        if(!Lottery::checkUserRankForLimit($data['limit'], $data['q'])){
+            abort(401, 'user rank not enough');
+        }
         $method = 'count' . studly_case($data['code']);
         return Lottery::$method($data['limit']);
     }
