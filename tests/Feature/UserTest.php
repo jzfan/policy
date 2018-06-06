@@ -30,7 +30,7 @@ class UserTest extends TestCase
 		$this->assertEquals(200, $this->user->points);
 		$this->assertEquals(0, $this->user->tickets_qty);
 
-		$this->get('/api/tickets', $this->authHeader);
+		$this->get('/api/tickets/bypoints', $this->authHeader);
 		$this->assertEquals(0, $this->user->fresh()->points);
 		$this->assertEquals(1, $this->user->fresh()->tickets_qty);
 	}
