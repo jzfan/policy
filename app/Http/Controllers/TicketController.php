@@ -46,8 +46,8 @@ class TicketController extends Controller
         auth()->user()->lockForUpdate();
         $points = auth()->user()->points;
         $tickets_qty = auth()->user()->tickets_qty;
-        if ($points >= 200) {
-            auth()->user()->update(['points' => $points-200, 'tickets_qty' => $tickets_qty+1]);
+        if ($points >= 100) {
+            auth()->user()->update(['points' => $points-100, 'tickets_qty' => $tickets_qty+1]);
         }
         return auth()->user();
     }

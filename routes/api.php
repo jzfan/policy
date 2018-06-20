@@ -41,4 +41,4 @@ Route::get('/oauth/url', 'WxOauthController@url');
 Route::get('/oauth/user', 'WxOauthController@user');
 
 Route::post('/qrcodes', 'QrcodeController@store')->middleware('auth:api');
-Route::get('/sign', 'UserController@sign')->middleware('auth:api');
+Route::get('/sign', 'SignController@sign')->middleware('auth:api');

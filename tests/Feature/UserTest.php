@@ -11,7 +11,7 @@ class UserTest extends TestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->user = factory('App\User')->create(['points' => 200, 'tickets_qty'=>0]);
+		$this->user = factory('App\User')->create(['points' => 100, 'tickets_qty'=>0]);
 		$this->authHeader = ['Authorization' => "Bearer {$this->user->api_token}"];
 	}
 
@@ -25,9 +25,9 @@ class UserTest extends TestCase
 	}
 
 	/** @test */
-	public function can_get_one_ticket_by_200_points()
+	public function can_get_one_ticket_by_100_points()
 	{
-		$this->assertEquals(200, $this->user->points);
+		$this->assertEquals(100, $this->user->points);
 		$this->assertEquals(0, $this->user->tickets_qty);
 
 		$this->get('/api/tickets/bypoints', $this->authHeader);

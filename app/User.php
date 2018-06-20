@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain', 'sign_at'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain', 'sign_at', 'sign_continuly'
     ];
 
     /**
@@ -78,7 +78,8 @@ class User extends Authenticatable
             'rank' => $this->rank,
             'rank_remain' => $this->rank_remain,
             'points' => $this->points,
-            'signed' => $signed
+            'signed' => $signed,
+            'sign_continuly' => $this->sign_continuly
         ];
     }
 }
