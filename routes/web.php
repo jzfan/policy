@@ -23,3 +23,8 @@ Route::any('/wechat', 'WechatController@serve');
 	});
 // });
 Route::any('/wxpay/notify', 'OrderController@wxNotify');
+Route::get('/wxpay/unify', 'OrderController@unify');
+
+Route::get('/wxpay/jsconfig', 'WxpayController@jsConfig');
+
+// Route::get('/jssdk-config', 'WechatController@jssdkConfig');

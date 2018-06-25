@@ -16,6 +16,17 @@ class OrderController extends Controller
 		$this->payment = $payment;
 	}
 
+	public function unify()
+	{
+		return $this->payment->order->unify([
+				'body' => 'test',
+				'out_trade_no' => date('ymdHis') . auth()->id(),
+				'total_fee' => 100,
+				'trade_type' => 'JSAPI',
+				'openid' => auth()->user()->openid
+			]);
+	}
+
 	public function wxNotify()
 	{
 		$response = $this->payment->handlePaidNotify(function ($message, $fail) {
