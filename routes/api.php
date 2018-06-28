@@ -42,3 +42,7 @@ Route::get('/oauth/user', 'WxOauthController@user');
 
 Route::post('/qrcodes', 'QrcodeController@store')->middleware('auth:api');
 Route::get('/sign', 'SignController@sign')->middleware('auth:api');
+
+Route::get('/wxpay/unify', 'OrderController@unify')->middleware('auth:api');
+Route::get('/wxpay/check', 'OrderController@check')->middleware('auth:api');
+Route::get('/wxpay/withdraw', 'WithdrawController@withdraw')->middleware('auth:api');

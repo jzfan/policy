@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class WxpayController extends Controller
+class WithdrawController extends Controller
 {
 	protected $payment;
 

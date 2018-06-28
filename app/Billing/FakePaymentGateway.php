@@ -4,7 +4,7 @@ namespace App\Billing;
 
 class FakePaymentGateway implements PaymentGateway
 {
-    public function prepay($data)
+    public function order($data)
     {
     	return [
     		   "return_msg" => "OK",

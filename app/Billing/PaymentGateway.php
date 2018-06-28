@@ -4,7 +4,7 @@ namespace App\Billing;
 
 interface PaymentGateway
 {
-    public function prepay($data);
+    public function order($data);
 
     public function handlePaidNotify($closure);
 }
