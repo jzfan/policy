@@ -37,4 +37,18 @@ class LotteryTest extends TestCase
 		$this->assertCount(2, Lottery::where('code', $lottery->code)->get());
 	}
 
+	/** @test */
+	public function can_check_user_rank_for_view_limit()
+	{
+		$user = factory('App\User')->create(['rank' => 1]);
+		$this->be($user);
+		$this->assertTrue(Lottery::checkUserRankForLimit(50, 'select'));
+		$this->assertFalse(Lottery::checkUserRankForLimit(100, 'select'));
+		$this->assertFalse(Lottery::checkUserRankForLimit(200, 'select'));
+		$user->update(['rank' => 2]);
+		$this->assertTrue(Lottery::checkUserRankForLimit(50, 'select'));
+		$this->assertTrue(Lottery::checkUserRankForLimit(100, 'select'));
+		$this->assertFalse(Lottery::checkUserRankForLimit(200, 'select'));
+	}
+
 }

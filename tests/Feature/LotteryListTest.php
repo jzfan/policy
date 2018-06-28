@@ -8,12 +8,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LotteryListTest extends TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->user = factory('App\User')->create();
+		$this->authHeader = ['Authorization' => "Bearer {$this->user->api_token}"];
+	}
+
 	/** @test */
 	public function ssq_group_by_win_number()
 	{
 		factory('App\Lottery', 2)->create(['code' => 'ssq', 'opencode'=> '0,0,0+01']);
 		factory('App\Lottery', 3)->create(['code' => 'ssq', 'opencode'=> '0,0,0+12']);
-		$this->get('/api/lotteries/count?code=ssq&limit=50&q=select')
+		$this->get('/api/lotteries/count?code=ssq&limit=50&q=select', $this->authHeader)
 			->assertStatus(200)
 			->assertJsonFragment(['number' => 1, 'count' => 2])
 			->assertJsonFragment(['number' => 12, 'count' => 3]);
@@ -24,7 +31,7 @@ class LotteryListTest extends TestCase
 	{
 		factory('App\Lottery')->create(['code' => 'fc3d', 'opencode'=> '1,2,3']);
 		factory('App\Lottery')->create(['code' => 'fc3d', 'opencode'=> '3,2,1']);
-		$res = $this->get('/api/lotteries/count?code=fc3d&limit=50&q=select')
+		$res = $this->get('/api/lotteries/count?code=fc3d&limit=50&q=select', $this->authHeader)
 			->assertStatus(200)
 			->assertJsonStructure(['bai', 'shi', 'ge'])
 			->decodeResponseJson();

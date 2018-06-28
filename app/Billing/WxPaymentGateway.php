@@ -67,14 +67,10 @@ class WxPaymentGateway implements PaymentGateway
                 'desc' => "彩保提现", // 企业付款操作说明信息。必填
             ]);
 
-            if ($this->isSuccess($response)) {
+            if ($this->isSuccess($response) || $this->isSuccess($this->payment->transfer->queryBalanceOrder($partnerTradeNo), 'status')) {
                 return $this->withdrawSuccess();
-            } else {
-                if ($this->isSuccess($this->payment->transfer->queryBalanceOrder($partnerTradeNo), 'status')) {
-                    return $this->withdrawSuccess();
-                }
-            }
-            return $response;
+            } 
+            return $response['err_code_des'];
         });
     }
 

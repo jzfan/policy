@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Order;
-use App\PrepayRank;
 use App\Billing\PaymentGateway;
 use Illuminate\Http\Request;
 
@@ -29,15 +28,8 @@ class OrderController extends Controller
 
 	public function check()
 	{
-		$ordered = auth()->user()->orders()->where('status', 'ordered')->get();
-		// \Log::info(json_encode($ordered->pluck('id')->all()));
-		foreach ($ordered as $order) {
-			if ($this->payment->isPaid($order->trade_no)) {
-				// \Log::info('order ' . $order->id . ' is paid');
-				PrepayRank::sold($order);
-			} else {
-				$order->delete();
-			}
+		foreach (auth()->user()->orders()->ordered()->get() as $order) {
+			$this->payment->isPaid($order->trade_no) ? $order->active() : $order->delete();
 		}
 	}
 
