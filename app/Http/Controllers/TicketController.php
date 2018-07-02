@@ -17,21 +17,20 @@ class TicketController extends Controller
 
     public function byPoints()
     {
-        return \DB::transaction(function () {
-            $authUser = \DB::table('users')->where('id', auth()->id())->lockForUpdate()->first();
-            if ($authUser->points >= 500) {
-                auth()->user()->update(['points' => $authUser->points-500, 'tickets_qty' => $authUser->tickets_qty+1]);
-            }
-            return auth()->user();
-        });
+        return $this->increaseBy('points', 500, 1);
     }
 
     public function byRank()
     {
-        return \DB::transaction(function () {
+        return $this->increaseBy('rank_remain', 1, 10);
+    }
+
+    protected function increaseBy($key, $pay, $got)
+    {
+        return \DB::transaction(function () use ($key, $pay, $got) {
             $authUser = \DB::table('users')->where('id', auth()->id())->lockForUpdate()->first();
-            if ($authUser->rank_remain >= 1) {
-                auth()->user()->update(['rank_remain' => $authUser->rank_remain-1, 'tickets_qty' => $authUser->tickets_qty+10]);
+            if ($authUser->$key >= $pay) {
+                auth()->user()->update([$key => $authUser->$key - $pay, 'tickets_qty' => $authUser->tickets_qty + $got]);
             }
             return auth()->user();
         });

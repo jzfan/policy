@@ -17,10 +17,13 @@ class OrderController extends Controller
 
 	public function unify()
 	{
+		$data = request()->validate([
+				'n' => 'required|numeric'
+			]);
 		return  $this->payment->order([
 				'body' => '会员充值',
 				'out_trade_no' => date('ymdHis') . auth()->id(),
-				'total_fee' => 1,
+				'total_fee' => $data['n'] * 100,
 				'trade_type' => 'JSAPI',
 				'openid' => auth()->user()->openid
 			]);
@@ -28,8 +31,14 @@ class OrderController extends Controller
 
 	public function check()
 	{
+		$data = request()->validate([
+				'n' => 'required|numeric'
+			]);
+		if ($data['n'] == 1 && auth()->user()->rank != 1) {
+			abort(400, 'only for rank 1');
+		}
 		foreach (auth()->user()->orders()->ordered()->get() as $order) {
-			$this->payment->isPaid($order->trade_no) ? $order->active() : $order->delete();
+			$this->payment->isPaid($order->trade_no) ? $order->active($data['n']) : $order->delete();
 		}
 	}
 

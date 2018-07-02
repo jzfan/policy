@@ -63,6 +63,14 @@ class User extends Authenticatable
         return $this->sign_at !== null && Carbon::parse($this->sign_at)->isToday();
     }
 
+    public function increaseRankByCharge($n)
+    {
+        $n = $n/10;
+        $level = $n >= 1 ? $n : 1;
+        $this->increment('rank', $level);
+        $this->increment('rank_remain', $level);
+    }
+
     public function toArray()
     {
         $used = $this->policies()->whereNotNull('status')->count();

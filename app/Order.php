@@ -20,11 +20,10 @@ class Order extends Model
     	return $q->where('status', 'ordered');
     }
 
-    public function active()
+    public function active($n)
     {
-    	\DB::transaction(function () {
-	    	$this->user->increment('rank');
-	    	$this->user->increment('rank_remain');
+    	\DB::transaction(function () use ($n) {
+            $this->user->increaseRankByCharge($n);
 	    	$this->update(['status' => 'paid', 'paid_at' => now()]);
 	    	Balance::create([
 	    	        'user_id' => $this->user_id,
