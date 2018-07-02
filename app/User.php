@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public static function givePoints($id)
     {
-        return self::find($id)->increment('points', 100);
+        return self::find($id)->increment('points', 500);
     }
 
     public function isSignedToday()
