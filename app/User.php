@@ -65,10 +65,8 @@ class User extends Authenticatable
 
     public function increaseRankByCharge($n)
     {
-        $n = $n/10;
-        $level = $n >= 1 ? $n : 1;
-        $this->increment('rank', $level);
-        $this->increment('rank_remain', $level);
+        $this->increment('rank', $n);
+        $this->increment('rank_remain', $n);
     }
 
     public function toArray()

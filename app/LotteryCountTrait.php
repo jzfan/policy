@@ -6,22 +6,22 @@ trait LotteryCountTrait
 {
 	public static function checkUserRankForLimit($limit, $by)
 	{
-		if ($by == 'input' && auth()->user() != null && auth()->user()->rank >= 4) {
+		if ($by == 'input' && auth()->user()->rank >= 50) {
 			return true;
 		}
 		if ($by == 'select') {
-			switch (auth()->user() != null ? auth()->user()->rank : 1) {
+			switch (auth()->user()->rank) {
 				default:
 				case 1:
 					$max_limit = 50;
 					break;
-				case 2:
+				case 10:
 					$max_limit = 100;
 					break;
-				case 3:
+				case 20:
 					$max_limit = 200;
 					break;
-				case 4:
+				case 50:
 					return true;
 			}
 			return $max_limit >= $limit;

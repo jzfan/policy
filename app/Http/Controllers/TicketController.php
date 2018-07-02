@@ -22,7 +22,7 @@ class TicketController extends Controller
 
     public function byRank()
     {
-        return $this->increaseBy('rank_remain', 1, 10);
+        return $this->increaseBy('rank_remain', 1, 1);
     }
 
     protected function increaseBy($key, $pay, $got)
