@@ -14,13 +14,13 @@ class AccountController extends Controller
     		'policy_id' => 'required:exists:policies,id'
     	]);
     	if ($data['type'] == 'increment') {
-    		$this->increment($data['policy_id']);
+    		return $this->increment($data['policy_id']);
     	}
     }
 
     protected function increment($policy_id)
     {
-		\DB::transaction( function () use ($policy_id) {
+		return \DB::transaction( function () use ($policy_id) {
 			if (Policy::where([
 					'id' => $policy_id,
     				'status' => 'lose',
@@ -28,8 +28,23 @@ class AccountController extends Controller
     			])->lockForUpdate()->get()->isEmpty()) {
 				abort(400, 'policy not exists');
 			}
+            $reward = $this->reward();
+            auth()->user()->increment('account', $reward);
 			Policy::find($policy_id)->update(['status' => 'rewarded']);
-			auth()->user()->increment('account', 200);
+            return $reward;
 		});
+    }
+
+    protected function reward()
+    {
+        $lucky = rand(1, 1000);
+        if ($lucky === 1) {
+            $yuan = rand(9, 66);
+        } elseif ($lucky >=2 && $lucky < 12) {
+            $yuan = rand(1, 8);
+        } else {
+            $yuan = 0;
+        }
+        return config('global.hongbao') + $yuan;
     }
 }
