@@ -10,21 +10,17 @@ trait LotteryCountTrait
 			return true;
 		}
 		if ($by == 'select') {
-			switch (auth()->user()->rank) {
-				default:
-				case 1:
-					$max_limit = 50;
-					break;
-				case 10:
-					$max_limit = 100;
-					break;
-				case 20:
-					$max_limit = 200;
-					break;
-				case 50:
+			switch ($rank = auth()->user()->rank) {
+				case $rank >= 50:
 					return true;
+				case $rank >= 20:
+					return $limit <= 200;
+				case $rank >= 10:
+					return $limit <= 100;
+				default:
+				case $rank >= 1:
+					return $limit <= 50;
 			}
-			return $max_limit >= $limit;
 		}
 		return false;
 	}

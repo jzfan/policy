@@ -45,10 +45,20 @@ class LotteryTest extends TestCase
 		$this->assertTrue(Lottery::checkUserRankForLimit(50, 'select'));
 		$this->assertFalse(Lottery::checkUserRankForLimit(100, 'select'));
 		$this->assertFalse(Lottery::checkUserRankForLimit(200, 'select'));
-		$user->update(['rank' => 2]);
+		$user->update(['rank' => 12]);
 		$this->assertTrue(Lottery::checkUserRankForLimit(50, 'select'));
 		$this->assertTrue(Lottery::checkUserRankForLimit(100, 'select'));
 		$this->assertFalse(Lottery::checkUserRankForLimit(200, 'select'));
+		$user->update(['rank' => 20]);
+		$this->assertTrue(Lottery::checkUserRankForLimit(50, 'select'));
+		$this->assertTrue(Lottery::checkUserRankForLimit(100, 'select'));
+		$this->assertTrue(Lottery::checkUserRankForLimit(200, 'select'));
+		$this->assertFalse(Lottery::checkUserRankForLimit(201, 'select'));
+		$user->update(['rank' => 50]);
+		$this->assertTrue(Lottery::checkUserRankForLimit(50, 'select'));
+		$this->assertTrue(Lottery::checkUserRankForLimit(100, 'select'));
+		$this->assertTrue(Lottery::checkUserRankForLimit(200, 'select'));
+		$this->assertTrue(Lottery::checkUserRankForLimit(888, 'select'));
 	}
 
 }
