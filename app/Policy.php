@@ -14,9 +14,14 @@ class Policy extends Model
         'win_number' => 'array'
     ];
 
+    public function lotteries()
+    {
+        return $this->hasMany(Lottery::class, 'code', 'code');
+    }
+
     public function lottery()
     {
-        return $this->belongsTo(Lottery::class, 'expect', 'expect');
+        return $this->lotteries()->where('expect', $this->expect)->first();
     }
 
     public function user()
@@ -26,7 +31,7 @@ class Policy extends Model
 
     public function wonOrLose()
     {
-        $data = $this->lottery->checkByRecommend($this->recommend);
+        $data = $this->lottery()->checkByRecommend($this->recommend);
         return $this->update($data);
     }
 

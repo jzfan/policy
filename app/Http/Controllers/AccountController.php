@@ -29,7 +29,7 @@ class AccountController extends Controller
 				abort(400, 'policy not exists');
 			}
             $reward = $this->reward();
-            auth()->user()->increment('account', $reward);
+            auth()->user()->increment('account', $reward * 100 );
 			Policy::find($policy_id)->update(['status' => 'rewarded']);
             return $reward;
 		});
