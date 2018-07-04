@@ -25,8 +25,13 @@ class PolicyController extends Controller
 
     public function active(Policy $policy)
     {
-        $policy->update(['status' => 'active']);
-        $policy->user->decrement('tickets_qty');
+        if (date('H') == '21') {
+            abort(400, '开奖中，请等待');
+        }
+        \DB::transaction( function () use ($policy) {
+            $policy->update(['status' => 'active']);
+            $policy->user->decrement('tickets_qty');
+        });
         return 'actived';
     }
 
