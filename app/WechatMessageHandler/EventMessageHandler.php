@@ -7,12 +7,14 @@ use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 
 class EventMessageHandler implements EventHandlerInterface
 {
+	protected $app;
 	protected $event;
 	protected $eventKey;
 	protected $fromUserOpenid;
 
 	public function __construct($app)
 	{
+		$this->app = $app;
 		$message = $app->server->getMessage();
 		// \Log::info(json_encode($message));
 		$this->event = $message['Event'];
@@ -23,7 +25,15 @@ class EventMessageHandler implements EventHandlerInterface
 	public function handle($payload = null)
 	{
 		if ($this->isNewSubscribeFromQrcode()) {
-			User::givePoints($this->getQrcodeUserId());
+			$wechatUser = $this->app->user->get($this->fromUserOpenid);
+			$introducer = User::givePoints($this->getQrcodeUserId());
+			User::create([
+                'openid' => $wechatUser['id'],
+                'name' => $wechatUser['nickname'],
+                'api_token' => str_random(60),
+                'avatar' => $wechatUser['avatar'],
+                'intoducer_id' => $introducer->id
+            ]);
 		}
 		return '
 		a. 大数据智能预测

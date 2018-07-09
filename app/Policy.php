@@ -14,14 +14,9 @@ class Policy extends Model
         'win_number' => 'array'
     ];
 
-    public function lotteries()
-    {
-        return $this->hasMany(Lottery::class, 'code', 'code');
-    }
-
     public function lottery()
     {
-        return $this->lotteries()->where('expect', $this->expect)->first();
+        return Lottery::where('code', $this->code)->where('expect', $this->expect)->first();
     }
 
     public function user()

@@ -55,7 +55,9 @@ class User extends Authenticatable
 
     public static function givePoints($id)
     {
-        return self::find($id)->increment('points', 500);
+        $user = self::findOrFail($id);
+        $user->increment('points', 500);
+        return $user;
     }
 
     public function isSignedToday()
@@ -67,6 +69,11 @@ class User extends Authenticatable
     {
         $this->increment('rank', $n);
         $this->increment('rank_remain', $n);
+    }
+
+    public function introduced()
+    {
+        return $this->hasMany(self::class, 'introducer_id', 'id');
     }
 
     public function toArray()
