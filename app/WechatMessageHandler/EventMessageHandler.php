@@ -28,11 +28,11 @@ class EventMessageHandler implements EventHandlerInterface
 			$wechatUser = $this->app->user->get($this->fromUserOpenid);
 			$introducer = User::givePoints($this->getQrcodeUserId());
 			User::create([
-                'openid' => $wechatUser['id'],
+                'openid' => $wechatUser['openid'],
                 'name' => $wechatUser['nickname'],
                 'api_token' => str_random(60),
-                'avatar' => $wechatUser['avatar'],
-                'intoducer_id' => $introducer->id
+                'avatar' => $wechatUser['headimgurl'],
+                'introducer_id' => $introducer->id
             ]);
 		}
 		return '
@@ -40,7 +40,8 @@ class EventMessageHandler implements EventHandlerInterface
 		通过历史大数据分析统计，智能预测下一期开奖号码（双色球，篮球，3D，3个号段
 		b. 中奖率显著提高
 		c. 您的彩票不中，我们给您买单
-		通过红包券的使用激活，若您彩票点投注的号码没中，同时我们预测的号码也没中，则我们以红包的形式送给您2-66元现金';
+		通过红包券的使用激活，若您彩票点投注的号码没中，同时我们预测的号码也没中，则我们以红包的形式送给您2-66元现金
+		';
 	}
 
 	private function isNewSubscribeFromQrcode()

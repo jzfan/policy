@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain', 'sign_at', 'sign_continuly'
+        'name', 'email', 'password', 'api_token', 'tickets_qty', 'openid', 'avatar', 'account', 'qrcode_ticket', 'rank', 'points', 'rank_remain', 'sign_at', 'sign_continuly', 'introducer_id'
     ];
 
     /**
@@ -81,6 +81,7 @@ class User extends Authenticatable
         $used = $this->policies()->whereNotNull('status')->count();
         $signed = $this->isSignedToday();
         return [
+            'id' => $this->id,
             'api_token' => $this->api_token,
             'name' => $this->name,
             'avatar' => $this->avatar,

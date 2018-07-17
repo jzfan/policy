@@ -82,7 +82,7 @@ class Lottery extends Model
             'code' => $this->code,
             'expect' => $this->expect,
             'opencode' => $this->opencode,
-            'created_at' => $this->created_at->format('Y-m-d')
+            'created_at' => $this->created_at
         ];
     }
 }
